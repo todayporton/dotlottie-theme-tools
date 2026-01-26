@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dotLottie Theme Builder</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Local-first dotLottie theming</p>
+          <h1>テーマ付きdotLottieをローカルで生成</h1>
+          <p class="lede">
+            AEから書き出したLottie JSONにテーマを付与し、.lottieとしてビルドします。
+            ファイルはブラウザ内で処理され、外部送信しません。
+          </p>
+        </div>
+        <div class="hero__card">
+          <div class="hero__badge">No subscription needed</div>
+          <div class="hero__meta">
+            <span>dotlottie-js v1</span>
+            <span>local web app</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel">
+          <div class="panel__header">
+            <h2>1. Lottie JSON</h2>
+            <p>テーマを埋め込みたいLottie JSONを選択</p>
+          </div>
+          <label class="dropzone" for="lottie-file">
+            <input id="lottie-file" type="file" accept="application/json" />
+            <span class="dropzone__title">ファイルを選択</span>
+            <span class="dropzone__hint">.json / After Effects書き出し</span>
+          </label>
+          <div class="field">
+            <label for="animation-id">Animation ID</label>
+            <input id="animation-id" type="text" value="animation_1" />
+          </div>
+          <div id="lottie-status" class="status">未読み込み</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__header">
+            <h2>2. Theme設定</h2>
+            <p>同じ色ごとにSIDとテーマ色を割り当てます</p>
+          </div>
+          <div class="field">
+            <label for="theme-id">Theme ID</label>
+            <input id="theme-id" type="text" value="theme_1" />
+          </div>
+          <div class="color-tools">
+            <div id="color-status" class="status">Lottieを読み込むと色が一覧化されます。</div>
+          </div>
+          <div class="color-header">
+            <span>Color</span>
+            <span>Usage</span>
+            <span>SID</span>
+            <span>Pick</span>
+            <span>Hex</span>
+          </div>
+          <div id="color-list" class="color-list"></div>
+        </section>
+
+        <section class="panel panel--wide">
+          <div class="panel__header">
+            <h2>3. Build</h2>
+            <p>テーマを紐づけてdotLottieを生成</p>
+          </div>
+          <div class="field">
+            <label for="animation-name">出力名 (.lottie)</label>
+            <input id="animation-name" type="text" value="themed-animation" />
+          </div>
+          <div class="actions">
+            <button id="build-btn" class="primary">.lottie を生成</button>
+            <button id="clear-btn" class="ghost">リセット</button>
+          </div>
+          <div class="note">
+            <strong>注意:</strong> SIDはテーマ適用のキーになります。未入力の行はテーマに含まれません。
+          </div>
+          <div id="build-status" class="status">準備中</div>
+          <div class="log-panel">
+            <div class="log-panel__header">
+              <span>実行ログ</span>
+              <div class="log-panel__actions">
+                <button id="copy-log" class="ghost">コピー</button>
+                <button id="download-log" class="ghost">保存</button>
+              </div>
+            </div>
+            <pre id="run-log" class="log-panel__body">ログはここに表示されます。</pre>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div>
+          <span>Docs:</span>
+          <a href="https://developers.lottiefiles.com/docs/tools/dotlottie-js/theming/" target="_blank" rel="noreferrer">Theming</a>
+          <a href="https://developers.lottiefiles.com/docs/tools/dotlottie-js/getting-started/" target="_blank" rel="noreferrer">dotlottie-js</a>
+          <a href="/preview.html" rel="noreferrer">Preview</a>
+        </div>
+        <span class="footer__tag">Made for local workflows</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

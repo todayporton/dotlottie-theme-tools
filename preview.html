@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dotLottie Preview</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero hero--compact">
+        <div class="hero__copy">
+          <p class="eyebrow">dotLottie preview</p>
+          <h1>テーマ付きdotLottieをプレビュー</h1>
+          <p class="lede">
+            .lottieファイルを読み込み、テーマを切り替えて確認できます。
+          </p>
+        </div>
+        <div class="hero__card">
+          <div class="hero__badge">Local preview</div>
+          <div class="hero__meta">
+            <span>dotlottie-web</span>
+            <span>theme switcher</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel">
+          <div class="panel__header">
+            <h2>1. dotLottie</h2>
+            <p>.lottieファイルをアップロード</p>
+          </div>
+          <label class="dropzone" for="preview-file">
+            <input id="preview-file" type="file" accept=".lottie" />
+            <span class="dropzone__title">.lottie を選択</span>
+            <span class="dropzone__hint">ドラッグ&ドロップ対応</span>
+          </label>
+          <div id="preview-status" class="status">未読み込み</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__header">
+            <h2>2. Theme</h2>
+            <p>manifestに含まれるテーマを選択</p>
+          </div>
+          <div class="field">
+            <label for="theme-select">Theme</label>
+            <select id="theme-select" class="select">
+              <option value="">default</option>
+            </select>
+          </div>
+          <div id="theme-status" class="status">.lottieを読み込むと一覧が出ます。</div>
+        </section>
+
+        <section class="panel panel--wide">
+          <div class="panel__header">
+            <h2>3. Preview</h2>
+            <p>アニメーション表示</p>
+          </div>
+          <div class="preview-controls">
+            <span class="preview-label">背景色</span>
+            <label class="toggle">
+              <input id="bg-toggle" type="checkbox" />
+              <span class="toggle__track"></span>
+              <span class="toggle__text">黒背景</span>
+            </label>
+          </div>
+          <div class="preview-canvas-wrap">
+            <canvas id="preview-canvas" class="preview-canvas"></canvas>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div>
+          <a href="/" rel="noreferrer">Builderへ戻る</a>
+        </div>
+        <span class="footer__tag">Preview mode</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/preview.js"></script>
+  </body>
+</html>

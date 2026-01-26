@@ -19,6 +19,7 @@ let lottieData = null;
 let colorEntries = [];
 let uniqueColors = [];
 let logBuffer = [];
+let lottieFileBaseName = "";
 
 const setStatus = (element, message, state = "") => {
   element.textContent = message;
@@ -51,7 +52,7 @@ const readJsonFile = async (file) => {
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 
 const rgbaToHex = (rgba) => {
-  const [r, g, b] = rgba.map((channel) =>
+  const [r, g, b] = rgba.slice(0, 3).map((channel) =>
     Math.round(clamp01(channel) * 255)
   );
   return `#${[r, g, b]
@@ -75,7 +76,7 @@ const isColorKey = (key) => ["c", "fc", "sc"].includes(key);
 
 const isColorProperty = (value) => {
   if (!value || typeof value !== "object" || !("k" in value)) return false;
-  if (Array.isArray(value.k) && value.k.length === 4) {
+  if (Array.isArray(value.k) && (value.k.length === 3 || value.k.length === 4)) {
     return value.k.every((item) => typeof item === "number");
   }
   if (
@@ -84,7 +85,7 @@ const isColorProperty = (value) => {
     value.k[0] &&
     typeof value.k[0] === "object" &&
     Array.isArray(value.k[0].s) &&
-    value.k[0].s.length === 4
+    (value.k[0].s.length === 3 || value.k[0].s.length === 4)
   ) {
     return value.k[0].s.every((item) => typeof item === "number");
   }
@@ -93,7 +94,10 @@ const isColorProperty = (value) => {
 
 const getColorFromProperty = (value) => {
   if (Array.isArray(value.k)) {
-    if (value.k.length === 4 && value.k.every((item) => typeof item === "number")) {
+    if (
+      (value.k.length === 3 || value.k.length === 4) &&
+      value.k.every((item) => typeof item === "number")
+    ) {
       return value.k;
     }
     if (
@@ -210,6 +214,10 @@ const handleLottieFile = async (file) => {
   if (!file) return;
   try {
     lottieData = await readJsonFile(file);
+    lottieFileBaseName = file.name.replace(/\.json$/i, "");
+    outputNameInput.value = lottieFileBaseName
+      ? `${lottieFileBaseName}_themed`
+      : "themed-animation";
     setStatus(lottieStatus, `読み込み完了: ${file.name}`, "ok");
     colorEntries = [];
     uniqueColors = [];
@@ -346,6 +354,7 @@ clearButton.addEventListener("click", () => {
   lottieData = null;
   colorEntries = [];
   uniqueColors = [];
+  lottieFileBaseName = "";
   colorList.innerHTML = "";
   animationIdInput.value = "animation_1";
   themeIdInput.value = "theme_1";

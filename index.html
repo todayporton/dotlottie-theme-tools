@@ -6,9 +6,10 @@
     <title>dotLottie Theme Builder</title>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
-  <body>
+  <body data-page="builder">
     <div class="app">
       <header class="hero">
+        <div id="site-header"></div>
         <div class="hero__copy">
           <p class="eyebrow">Local-first dotLottie theming</p>
           <h1>テーマ付きdotLottieをローカルで生成</h1>
@@ -96,15 +97,7 @@
         </section>
       </main>
 
-      <footer class="footer">
-        <div>
-          <span>Docs:</span>
-          <a href="https://developers.lottiefiles.com/docs/tools/dotlottie-js/theming/" target="_blank" rel="noreferrer">Theming</a>
-          <a href="https://developers.lottiefiles.com/docs/tools/dotlottie-js/getting-started/" target="_blank" rel="noreferrer">dotlottie-js</a>
-          <a href="preview.html" rel="noreferrer">Preview</a>
-        </div>
-        <span class="footer__tag">Made for local workflows</span>
-      </footer>
+      <div id="site-footer"></div>
     </div>
 
     <script type="module" src="/src/main.js"></script>

@@ -6,9 +6,10 @@
     <title>dotLottie Preview</title>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
-  <body>
+  <body data-page="preview">
     <div class="app">
       <header class="hero hero--compact">
+        <div id="site-header"></div>
         <div class="hero__copy">
           <p class="eyebrow">dotLottie preview</p>
           <h1>テーマ付きdotLottieをプレビュー</h1>
@@ -72,12 +73,7 @@
         </section>
       </main>
 
-      <footer class="footer">
-        <div>
-          <a href="index.html" rel="noreferrer">Builderへ戻る</a>
-        </div>
-        <span class="footer__tag">Preview mode</span>
-      </footer>
+      <div id="site-footer"></div>
     </div>
 
     <script type="module" src="/src/preview.js"></script>

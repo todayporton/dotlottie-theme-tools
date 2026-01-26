@@ -8,22 +8,16 @@
   </head>
   <body data-page="builder">
     <div class="app">
-      <header class="hero">
+      <header class="hero hero--single">
         <div id="site-header"></div>
         <div class="hero__copy">
-          <p class="eyebrow">Local-first dotLottie theming</p>
+          <p class="eyebrow">dotLottie theming</p>
           <h1>テーマ付きdotLottieをローカルで生成</h1>
           <p class="lede">
-            AEから書き出したLottie JSONにテーマを付与し、.lottieとしてビルドします。
+            AEから書き出したLottie
+            JSONにテーマを付与し、.lottieとしてビルドします。
             ファイルはブラウザ内で処理され、外部送信しません。
           </p>
-        </div>
-        <div class="hero__card">
-          <div class="hero__badge">No subscription needed</div>
-          <div class="hero__meta">
-            <span>dotlottie-js v1</span>
-            <span>local web app</span>
-          </div>
         </div>
       </header>
 
@@ -55,11 +49,13 @@
             <input id="theme-id" type="text" value="theme_1" />
           </div>
           <div class="color-tools">
-            <div id="color-status" class="status">Lottieを読み込むと色が一覧化されます。</div>
+            <div id="color-status" class="status">
+              Lottieを読み込むと色が一覧化されます。
+            </div>
           </div>
           <div class="color-header">
             <span>Color</span>
-            <span>Usage</span>
+            <span></span>
             <span>SID</span>
             <span>Pick</span>
             <span>Hex</span>
@@ -81,18 +77,29 @@
             <button id="clear-btn" class="ghost">リセット</button>
           </div>
           <div class="note">
-            <strong>注意:</strong> SIDはテーマ適用のキーになります。未入力の行はテーマに含まれません。
+            <strong>注意:</strong>
+            SIDはテーマ適用のキーになります。未入力の行はテーマに含まれません。
           </div>
           <div id="build-status" class="status">準備中</div>
-          <div class="log-panel">
-            <div class="log-panel__header">
-              <span>実行ログ</span>
-              <div class="log-panel__actions">
-                <button id="copy-log" class="ghost">コピー</button>
-                <button id="download-log" class="ghost">保存</button>
-              </div>
+        </section>
+        <section class="panel panel--wide log-panel log-panel--collapsed">
+          <button
+            class="log-panel__header log-panel__toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="run-log"
+          >
+            <span>実行ログ</span>
+            <span class="log-panel__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="log-panel__content" aria-hidden="true">
+            <div class="log-panel__actions">
+              <button id="copy-log" class="ghost">コピー</button>
+              <button id="download-log" class="ghost">保存</button>
             </div>
-            <pre id="run-log" class="log-panel__body">ログはここに表示されます。</pre>
+            <pre id="run-log" class="log-panel__body">
+ログはここに表示されます。</pre
+            >
           </div>
         </section>
       </main>

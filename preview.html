@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dotLottie Preview</title>
+    <title>dotLottie Theme Preview</title>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body data-page="preview">
     <div class="app">
-      <header class="hero hero--compact">
+      <header class="hero hero--compact hero--single">
         <div id="site-header"></div>
         <div class="hero__copy">
           <p class="eyebrow">dotLottie preview</p>
@@ -16,13 +16,6 @@
           <p class="lede">
             .lottieファイルを読み込み、テーマを切り替えて確認できます。
           </p>
-        </div>
-        <div class="hero__card">
-          <div class="hero__badge">Local preview</div>
-          <div class="hero__meta">
-            <span>dotlottie-web</span>
-            <span>theme switcher</span>
-          </div>
         </div>
       </header>
 
@@ -51,7 +44,9 @@
               <option value="">default</option>
             </select>
           </div>
-          <div id="theme-status" class="status">.lottieを読み込むと一覧が出ます。</div>
+          <div id="theme-status" class="status">
+            .lottieを読み込むと一覧が出ます。
+          </div>
         </section>
 
         <section class="panel panel--wide">

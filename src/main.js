@@ -14,6 +14,9 @@ const colorStatus = document.getElementById("color-status");
 const colorList = document.getElementById("color-list");
 const buildStatus = document.getElementById("build-status");
 const runLog = document.getElementById("run-log");
+const logPanel = document.querySelector(".log-panel");
+const logToggle = document.querySelector(".log-panel__toggle");
+const logContent = document.querySelector(".log-panel__content");
 
 let lottieData = null;
 let colorEntries = [];
@@ -43,6 +46,20 @@ const resetLog = () => {
 };
 
 resetLog();
+
+const setLogExpanded = (expanded) => {
+  if (!logPanel || !logToggle || !logContent) return;
+  logPanel.classList.toggle("log-panel--collapsed", !expanded);
+  logToggle.setAttribute("aria-expanded", String(expanded));
+  logContent.setAttribute("aria-hidden", String(!expanded));
+};
+
+logToggle?.addEventListener("click", () => {
+  const isExpanded = logToggle.getAttribute("aria-expanded") === "true";
+  setLogExpanded(!isExpanded);
+});
+
+setLogExpanded(false);
 
 const readJsonFile = async (file) => {
   const text = await file.text();
@@ -154,21 +171,19 @@ const renderColorList = () => {
 
     const swatch = document.createElement("div");
     swatch.className = "color-chip";
-    swatch.style.background = entry.themeHex;
+    swatch.style.background = entry.originalHex;
     row.appendChild(swatch);
 
     const original = document.createElement("div");
     original.className = "color-meta";
-    original.textContent = `${entry.count} 件 / alpha ${entry.alpha.toFixed(
-      2
-    )}`;
+    original.textContent = `${entry.count} 件`;
     row.appendChild(original);
 
     const sidInput = document.createElement("input");
     sidInput.type = "text";
     sidInput.placeholder = "sid (例: primary_fill)";
     sidInput.value = entry.sid;
-    sidInput.className = "color-input";
+    sidInput.className = "color-input sid-input";
     sidInput.addEventListener("input", (event) => {
       entry.sid = event.target.value.trim();
     });
@@ -180,7 +195,6 @@ const renderColorList = () => {
     colorInput.className = "color-picker";
     colorInput.addEventListener("input", (event) => {
       entry.themeHex = event.target.value;
-      swatch.style.background = entry.themeHex;
       hexInput.value = entry.themeHex;
     });
     row.appendChild(colorInput);
@@ -195,13 +209,11 @@ const renderColorList = () => {
       if (value === "") {
         entry.themeHex = "";
         colorInput.value = entry.originalHex;
-        swatch.style.background = entry.originalHex;
         return;
       }
       if (/^#?[0-9a-fA-F]{6}$/.test(value)) {
         entry.themeHex = value.startsWith("#") ? value : `#${value}`;
         colorInput.value = entry.themeHex;
-        swatch.style.background = entry.themeHex;
       }
     });
     row.appendChild(hexInput);

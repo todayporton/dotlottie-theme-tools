@@ -22,7 +22,8 @@ body {
   margin: 0;
   font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
   color: var(--ink);
-  background: radial-gradient(circle at 10% 20%, #fff4dc 0%, transparent 45%),
+  background:
+    radial-gradient(circle at 10% 20%, #fff4dc 0%, transparent 45%),
     radial-gradient(circle at 85% 15%, #d3f2e6 0%, transparent 40%),
     linear-gradient(135deg, var(--bg) 0%, var(--bg-accent) 100%);
   min-height: 100vh;
@@ -42,7 +43,7 @@ body {
 .app {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px 64px;
+  padding: 48px 24px 32px;
 }
 
 .hero {
@@ -51,6 +52,10 @@ body {
   gap: 32px;
   align-items: stretch;
   margin-bottom: 32px;
+}
+
+.hero--single {
+  grid-template-columns: 1fr;
 }
 
 .top-nav {
@@ -70,6 +75,7 @@ body {
   font-weight: 700;
   text-decoration: none;
   color: var(--ink);
+  font-size: 24px;
 }
 
 .top-nav__links {
@@ -204,7 +210,9 @@ h1 {
   margin: 16px 0 18px;
   background: rgba(30, 76, 75, 0.05);
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .dropzone:hover {
@@ -279,7 +287,7 @@ h1 {
 
 .color-header {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 64px minmax(0, 120px);
+  grid-template-columns: 32px 56px minmax(0, 1fr) 64px minmax(0, 120px);
   gap: 10px;
   font-size: 11px;
   text-transform: uppercase;
@@ -290,7 +298,7 @@ h1 {
 
 .color-row {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 64px minmax(0, 120px);
+  grid-template-columns: 32px 56px minmax(0, 1fr) 64px minmax(0, 120px);
   align-items: center;
   gap: 10px;
   padding: 10px;
@@ -473,7 +481,7 @@ button {
 }
 
 .log-panel {
-  margin-top: 16px;
+  margin-top: 0;
   border-radius: 16px;
   border: 1px solid rgba(36, 28, 18, 0.14);
   background: rgba(255, 255, 255, 0.75);
@@ -494,6 +502,47 @@ button {
 .log-panel__actions {
   display: flex;
   gap: 8px;
+  margin-bottom: 8px;
+}
+
+.log-panel__toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.log-panel__chevron {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.log-panel__chevron::before {
+  content: "▾";
+  line-height: 1;
+}
+
+.log-panel__content {
+  display: grid;
+}
+
+.log-panel--collapsed .log-panel__content {
+  display: none;
+}
+
+.log-panel--collapsed .log-panel__chevron {
+  transform: none;
+}
+
+.log-panel:not(.log-panel--collapsed) .log-panel__chevron {
+  transform: rotate(180deg);
 }
 
 .log-panel__body {
@@ -559,6 +608,10 @@ button {
   .color-row .color-input,
   .color-row .color-picker {
     width: 100%;
+  }
+
+  .sid-input {
+    grid-column: 1 / -1;
   }
 }
 

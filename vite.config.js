@@ -4,8 +4,8 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
 const rootDir = fileURLToPath(new URL(".", import.meta.url));
-const headerPath = fileURLToPath(new URL("./public/header.html", import.meta.url));
-const footerPath = fileURLToPath(new URL("./public/footer.html", import.meta.url));
+const headerPath = fileURLToPath(new URL("./partials/header.html", import.meta.url));
+const footerPath = fileURLToPath(new URL("./partials/footer.html", import.meta.url));
 
 export default defineConfig({
   base: "./",

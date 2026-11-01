@@ -1,10 +1,15 @@
-# dotLottie Theme Builder
+# dotLottie Theme Tools
 
-A local web application for attaching color themes to Lottie animations and generating `.lottie` files.
+A web application for attaching color themes to Lottie animations and generating `.lottie` files.
+
+**Live site:** https://potkc.github.io/dotlottie-theme-tools/
+
+- [Builder](https://potkc.github.io/dotlottie-theme-tools/)
+- [Preview](https://potkc.github.io/dotlottie-theme-tools/preview.html)
 
 ## Overview
 
-dotLottie Theme Builder enables designers and developers to:
+dotLottie Theme Tools enables designers and developers to:
 
 - Upload Lottie JSON files and automatically extract all color properties
 - Assign semantic IDs (SIDs) to colors for theming
@@ -62,17 +67,23 @@ npm run build
 npm run preview
 ```
 
+## Deployment
+
+Pushing to `main` builds the site and deploys `dist/` to GitHub Pages through `.github/workflows/deploy.yml`. In the repository settings, set **Pages → Source** to **GitHub Actions**.
+
 ## Directory Structure
 
 ```
 dotlottie-theme-tools/
+├── .github/workflows/
+│   └── deploy.yml       # GitHub Pages deployment
 ├── src/
 │   ├── main.js          # Builder application logic
 │   ├── preview.js       # Preview application logic
 │   └── styles.css       # Shared styles
-├── public/
-│   ├── header.html      # Shared navigation header
-│   └── footer.html      # Shared footer
+├── partials/
+│   ├── header.html      # Shared navigation header (inlined at build time)
+│   └── footer.html      # Shared footer (inlined at build time)
 ├── index.html           # Builder page
 ├── preview.html         # Preview page
 ├── vite.config.js       # Vite configuration
@@ -118,6 +129,8 @@ The build process uses `@dotlottie/dotlottie-js`:
 | `@lottiefiles/dotlottie-web` | Rendering and preview functionality |
 | `vite` | Build tool and development server |
 
+The Preview page loads the `dotlottie-web` WebAssembly module from a public CDN at runtime, so it needs network access to jsDelivr or unpkg.
+
 ## Usage
 
 ### Creating a Themed dotLottie
@@ -139,4 +152,4 @@ The build process uses `@dotlottie/dotlottie-js`:
 
 ## License
 
-MIT
+[MIT](LICENSE)

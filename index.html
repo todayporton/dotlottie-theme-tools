@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- i18n-head -->
     <title>dotLottie Theme Builder</title>
+    <meta
+      name="description"
+      content="Lottie JSONの色にSIDとテーマ色を割り当て、テーマ付きの.lottieファイルをブラウザ上で生成できる無料ツールです。"
+    />
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body data-page="builder">
@@ -12,8 +17,8 @@
         <div id="site-header"></div>
         <div class="hero__copy">
           <p class="eyebrow">dotLottie theming</p>
-          <h1>テーマ付きdotLottieをローカルで生成</h1>
-          <p class="lede">
+          <h1 data-i18n="builder.title">テーマ付きdotLottieをローカルで生成</h1>
+          <p class="lede" data-i18n="builder.lede">
             AEから書き出したLottie
             JSONにテーマを付与し、.lottieとしてビルドします。
             ファイルはブラウザ内で処理され、外部送信しません。
@@ -25,31 +30,31 @@
         <section class="panel">
           <div class="panel__header">
             <h2>1. Lottie JSON</h2>
-            <p>テーマを埋め込みたいLottie JSONを選択</p>
+            <p data-i18n="builder.lottie.desc">テーマを埋め込みたいLottie JSONを選択</p>
           </div>
           <label class="dropzone" for="lottie-file">
             <input id="lottie-file" type="file" accept="application/json" />
-            <span class="dropzone__title">ファイルを選択</span>
-            <span class="dropzone__hint">.json / After Effects書き出し</span>
+            <span class="dropzone__title" data-i18n="builder.lottie.select">ファイルを選択</span>
+            <span class="dropzone__hint" data-i18n="builder.lottie.hint">.json / After Effects書き出し</span>
           </label>
           <div class="field">
             <label for="animation-id">Animation ID</label>
             <input id="animation-id" type="text" value="animation_1" />
           </div>
-          <div id="lottie-status" class="status">未読み込み</div>
+          <div id="lottie-status" class="status" data-i18n="status.notLoaded">未読み込み</div>
         </section>
 
         <section class="panel">
           <div class="panel__header">
-            <h2>2. Theme設定</h2>
-            <p>同じ色ごとにSIDとテーマ色を割り当てます</p>
+            <h2 data-i18n="builder.theme.title">2. Theme設定</h2>
+            <p data-i18n="builder.theme.desc">同じ色ごとにSIDとテーマ色を割り当てます</p>
           </div>
           <div class="field">
             <label for="theme-id">Theme ID</label>
             <input id="theme-id" type="text" value="theme_1" />
           </div>
           <div class="color-tools">
-            <div id="color-status" class="status">
+            <div id="color-status" class="status" data-i18n="color.initial">
               Lottieを読み込むと色が一覧化されます。
             </div>
           </div>
@@ -66,21 +71,21 @@
         <section class="panel panel--wide">
           <div class="panel__header">
             <h2>3. Build</h2>
-            <p>テーマを紐づけてdotLottieを生成</p>
+            <p data-i18n="builder.build.desc">テーマを紐づけてdotLottieを生成</p>
           </div>
           <div class="field">
-            <label for="animation-name">出力名 (.lottie)</label>
+            <label for="animation-name" data-i18n="builder.build.outputName">出力名 (.lottie)</label>
             <input id="animation-name" type="text" value="themed-animation" />
           </div>
           <div class="actions">
-            <button id="build-btn" class="primary">.lottie を生成</button>
-            <button id="clear-btn" class="ghost">リセット</button>
+            <button id="build-btn" class="primary" data-i18n="builder.build.submit">.lottie を生成</button>
+            <button id="clear-btn" class="ghost" data-i18n="builder.build.reset">リセット</button>
           </div>
           <div class="note">
-            <strong>注意:</strong>
-            SIDはテーマ適用のキーになります。未入力の行はテーマに含まれません。
+            <strong data-i18n="builder.note.label">注意:</strong>
+            <span data-i18n="builder.note.body">SIDはテーマ適用のキーになります。未入力の行はテーマに含まれません。</span>
           </div>
-          <div id="build-status" class="status">準備中</div>
+          <div id="build-status" class="status" data-i18n="build.idle">準備中</div>
         </section>
         <section class="panel panel--wide log-panel log-panel--collapsed">
           <button
@@ -89,15 +94,15 @@
             aria-expanded="false"
             aria-controls="run-log"
           >
-            <span>実行ログ</span>
+            <span data-i18n="log.title">実行ログ</span>
             <span class="log-panel__chevron" aria-hidden="true"></span>
           </button>
           <div class="log-panel__content" aria-hidden="true">
             <div class="log-panel__actions">
-              <button id="copy-log" class="ghost">コピー</button>
-              <button id="download-log" class="ghost">保存</button>
+              <button id="copy-log" class="ghost" data-i18n="log.copy">コピー</button>
+              <button id="download-log" class="ghost" data-i18n="log.save">保存</button>
             </div>
-            <pre id="run-log" class="log-panel__body">
+            <pre id="run-log" class="log-panel__body" data-i18n="log.placeholder">
 ログはここに表示されます。</pre
             >
           </div>

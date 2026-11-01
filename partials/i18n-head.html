@@ -1,0 +1,25 @@
+<style>
+      html.i18n-pending body {
+        visibility: hidden;
+      }
+    </style>
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var locale = null;
+        try {
+          locale = localStorage.getItem("dotlottie-theme-tools:locale");
+        } catch (error) {}
+        if (locale !== "ja" && locale !== "en") {
+          locale = /^ja\b/i.test(navigator.language || "") ? "ja" : "en";
+        }
+        root.lang = locale;
+        if (locale !== "ja") {
+          // The HTML is written in Japanese; hide it until src/i18n.js has run.
+          root.classList.add("i18n-pending");
+          setTimeout(function () {
+            root.classList.remove("i18n-pending");
+          }, 3000);
+        }
+      })();
+    </script>

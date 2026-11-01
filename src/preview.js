@@ -1,3 +1,4 @@
+import { setText } from "./i18n.js";
 import { DotLottie } from "@lottiefiles/dotlottie-web";
 
 const fileInput = document.getElementById("preview-file");
@@ -11,9 +12,10 @@ const previewWrap = document.querySelector(".preview-canvas-wrap");
 
 let player = null;
 let currentUrl = null;
+let currentFileName = "";
 
-const setStatus = (element, message, state = "") => {
-  element.textContent = message;
+const setStatus = (element, key, state = "", params) => {
+  setText(element, key, params);
   if (state) {
     element.dataset.state = state;
   } else {
@@ -60,9 +62,9 @@ const updateThemeOptions = () => {
   });
 
   if (ids.size === 0) {
-    setStatus(themeStatus, "テーマが見つかりませんでした。", "warn");
+    setStatus(themeStatus, "preview.theme.none", "warn");
   } else {
-    setStatus(themeStatus, `${ids.size}件のテーマを検出しました。`, "ok");
+    setStatus(themeStatus, "preview.theme.found", "ok", { count: ids.size });
   }
 };
 
@@ -95,10 +97,11 @@ const handleFile = async (file) => {
     URL.revokeObjectURL(currentUrl);
   }
   currentUrl = URL.createObjectURL(file);
+  currentFileName = file.name;
 
-  setStatus(statusEl, `読み込み中: ${file.name}`, "warn");
+  setStatus(statusEl, "preview.file.loading", "warn", { name: file.name });
   resetThemeOptions();
-  setStatus(themeStatus, "テーマを解析中...", "warn");
+  setStatus(themeStatus, "preview.theme.parsing", "warn");
 
   if (!player) {
     player = new DotLottie({
@@ -112,18 +115,16 @@ const handleFile = async (file) => {
       }
     });
     player.addEventListener("load", () => {
-      setStatus(statusEl, `読み込み完了: ${file.name}`, "ok");
+      setStatus(statusEl, "status.loaded", "ok", { name: currentFileName });
       resizeCanvas();
       updateThemeOptions();
       handleThemeChange();
     });
     player.addEventListener("loadError", (event) => {
-      setStatus(
-        statusEl,
-        `読み込み失敗: ${event?.error || "unknown"}`,
-        "error"
-      );
-      setStatus(themeStatus, "テーマ取得に失敗しました。", "error");
+      setStatus(statusEl, "preview.file.failed", "error", {
+        error: String(event?.error || "unknown")
+      });
+      setStatus(themeStatus, "preview.theme.failed", "error");
     });
   } else {
     player.load({

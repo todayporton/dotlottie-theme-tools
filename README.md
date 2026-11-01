@@ -38,6 +38,12 @@ dotLottie Theme Tools enables designers and developers to:
 | Theme Switching | Dynamically switch between available themes |
 | Background Toggle | Switch between light and dark backgrounds |
 
+### Language
+
+The interface is available in Japanese and English. Japanese browsers get Japanese and all others get English. The `JA / EN` switch in the header overrides this, and the choice is remembered in `localStorage`.
+
+UI text lives in `src/i18n.js`. Page titles and meta descriptions are not translated.
+
 ## Requirements
 
 - Node.js 18+
@@ -80,10 +86,12 @@ dotlottie-theme-tools/
 ├── src/
 │   ├── main.js          # Builder application logic
 │   ├── preview.js       # Preview application logic
+│   ├── i18n.js          # Japanese and English UI text
 │   └── styles.css       # Shared styles
 ├── partials/
 │   ├── header.html      # Shared navigation header (inlined at build time)
-│   └── footer.html      # Shared footer (inlined at build time)
+│   ├── footer.html      # Shared footer (inlined at build time)
+│   └── i18n-head.html   # Picks the language before first paint (inlined at build time)
 ├── index.html           # Builder page
 ├── preview.html         # Preview page
 ├── vite.config.js       # Vite configuration

@@ -1,3 +1,4 @@
+import { setPlaceholder, setText, t } from "./i18n.js";
 import { DotLottie } from "@dotlottie/dotlottie-js";
 
 const lottieFileInput = document.getElementById("lottie-file");
@@ -24,8 +25,8 @@ let uniqueColors = [];
 let logBuffer = [];
 let lottieFileBaseName = "";
 
-const setStatus = (element, message, state = "") => {
-  element.textContent = message;
+const setStatus = (element, key, state = "", params) => {
+  setText(element, key, params);
   if (state) {
     element.dataset.state = state;
   } else {
@@ -37,12 +38,13 @@ const appendLog = (message, details = "") => {
   const timestamp = new Date().toISOString();
   const line = `[${timestamp}] ${message}${details ? `\n${details}` : ""}`;
   logBuffer = [line, ...logBuffer].slice(0, 200);
+  delete runLog.dataset.i18n;
   runLog.textContent = logBuffer.join("\n\n");
 };
 
 const resetLog = () => {
-  logBuffer = ["ログはここに表示されます。"];
-  runLog.textContent = logBuffer.join("\n");
+  logBuffer = [];
+  setText(runLog, "log.placeholder");
 };
 
 resetLog();
@@ -159,11 +161,11 @@ const extractColors = (node, path = []) => {
 const renderColorList = () => {
   colorList.innerHTML = "";
   if (uniqueColors.length === 0) {
-    setStatus(colorStatus, "抽出できる色が見つかりませんでした。", "warn");
+    setStatus(colorStatus, "color.none", "warn");
     return;
   }
 
-  setStatus(colorStatus, `${uniqueColors.length}色を検出しました。`, "ok");
+  setStatus(colorStatus, "color.found", "ok", { count: uniqueColors.length });
 
   uniqueColors.forEach((entry) => {
     const row = document.createElement("div");
@@ -176,12 +178,12 @@ const renderColorList = () => {
 
     const original = document.createElement("div");
     original.className = "color-meta";
-    original.textContent = `${entry.count} 件`;
+    setText(original, "color.count", { count: entry.count });
     row.appendChild(original);
 
     const sidInput = document.createElement("input");
     sidInput.type = "text";
-    sidInput.placeholder = "sid (例: primary_fill)";
+    setPlaceholder(sidInput, "color.sidPlaceholder");
     sidInput.value = entry.sid;
     sidInput.className = "color-input sid-input";
     sidInput.addEventListener("input", (event) => {
@@ -230,7 +232,7 @@ const handleLottieFile = async (file) => {
     outputNameInput.value = lottieFileBaseName
       ? `${lottieFileBaseName}_themed`
       : "themed-animation";
-    setStatus(lottieStatus, `読み込み完了: ${file.name}`, "ok");
+    setStatus(lottieStatus, "status.loaded", "ok", { name: file.name });
     colorEntries = [];
     uniqueColors = [];
     extractColors(lottieData);
@@ -254,15 +256,15 @@ const handleLottieFile = async (file) => {
     });
     uniqueColors = Array.from(grouped.values());
     renderColorList();
-    appendLog(`Lottie読み込み成功: ${file.name}`);
+    appendLog(t("log.lottieLoaded", { name: file.name }));
   } catch (error) {
     lottieData = null;
-    setStatus(lottieStatus, "Lottie JSONの読み込みに失敗しました。", "error");
+    setStatus(lottieStatus, "status.lottieLoadFailed", "error");
     colorEntries = [];
     uniqueColors = [];
     colorList.innerHTML = "";
-    setStatus(colorStatus, "Lottieの読み込みに失敗しました。", "error");
-    appendLog("Lottie読み込み失敗", error?.stack || String(error));
+    setStatus(colorStatus, "color.loadFailed", "error");
+    appendLog(t("log.lottieFailed"), error?.stack || String(error));
   }
 };
 
@@ -297,12 +299,12 @@ bindDropzone(lottieDropzone, handleLottieFile);
 
 buildButton.addEventListener("click", async () => {
   if (!lottieData) {
-    setStatus(buildStatus, "Lottie JSONを読み込んでください。", "warn");
+    setStatus(buildStatus, "build.needLottie", "warn");
     return;
   }
 
   if (colorEntries.length === 0) {
-    setStatus(buildStatus, "色の抽出ができていません。", "warn");
+    setStatus(buildStatus, "build.noColors", "warn");
     return;
   }
 
@@ -311,7 +313,7 @@ buildButton.addEventListener("click", async () => {
   const outputName = outputNameInput.value.trim() || "themed-animation";
 
   try {
-    setStatus(buildStatus, "dotLottieを生成中...", "warn");
+    setStatus(buildStatus, "build.running", "warn");
 
     const themeData = { rules: [] };
     let assigned = 0;
@@ -334,7 +336,7 @@ buildButton.addEventListener("click", async () => {
     });
 
     if (assigned === 0) {
-      setStatus(buildStatus, "SIDを1つ以上設定してください。", "warn");
+      setStatus(buildStatus, "build.needSid", "warn");
       return;
     }
 
@@ -353,11 +355,11 @@ buildButton.addEventListener("click", async () => {
         bundle.download(`${outputName}.lottie`);
       });
 
-    setStatus(buildStatus, "完了: .lottieをダウンロードしました。", "ok");
-    appendLog("dotLottie生成成功", `出力: ${outputName}.lottie`);
+    setStatus(buildStatus, "build.done", "ok");
+    appendLog(t("log.buildDone"), t("log.buildOutput", { name: `${outputName}.lottie` }));
   } catch (error) {
-    setStatus(buildStatus, "生成に失敗しました。ログを確認してください。", "error");
-    appendLog("dotLottie生成失敗", error?.stack || String(error));
+    setStatus(buildStatus, "build.failed", "error");
+    appendLog(t("log.buildFailed"), error?.stack || String(error));
   }
 });
 
@@ -371,18 +373,18 @@ clearButton.addEventListener("click", () => {
   animationIdInput.value = "animation_1";
   themeIdInput.value = "theme_1";
   outputNameInput.value = "themed-animation";
-  setStatus(lottieStatus, "未読み込み");
-  setStatus(colorStatus, "Lottieを読み込むと色が一覧化されます。");
-  setStatus(buildStatus, "準備中");
+  setStatus(lottieStatus, "status.notLoaded");
+  setStatus(colorStatus, "color.initial");
+  setStatus(buildStatus, "build.idle");
   resetLog();
 });
 
 copyLogButton.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(runLog.textContent);
-    appendLog("ログをコピーしました。");
+    appendLog(t("log.copied"));
   } catch (error) {
-    appendLog("ログのコピーに失敗しました。", error?.stack || String(error));
+    appendLog(t("log.copyFailed"), error?.stack || String(error));
   }
 });
 
@@ -396,5 +398,5 @@ downloadLogButton.addEventListener("click", () => {
   anchor.click();
   anchor.remove();
   URL.revokeObjectURL(url);
-  appendLog("ログを保存しました。");
+  appendLog(t("log.saved"));
 });
